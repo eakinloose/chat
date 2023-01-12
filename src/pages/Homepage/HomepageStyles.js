@@ -56,6 +56,7 @@ export const Wrapper = styled.div`
             width: 40px;
             border-radius: 50%;
             background: #249edd;
+            background: #2299fd;
             margin-right: 1rem;
             margin-left: 0;
             display: flex;
@@ -83,6 +84,7 @@ export const Wrapper = styled.div`
          background: teal;
          background: #3f75cc;
          background: #249edd;
+         background: #2299fd;
          color: whitesmoke;
          margin-left: 20%;
          display: flex;
@@ -116,6 +118,7 @@ export const Wrapper = styled.div`
       button {
          padding: 0.8rem;
          background: #249edd;
+         background: #2299fd;
          color: white;
          border: none;
          cursor: pointer;
