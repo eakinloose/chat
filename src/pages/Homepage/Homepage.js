@@ -9,26 +9,26 @@ const Homepage = () => {
    const loggedUser = useSelector((state) => state.user.loggedUser);
    const messages = useSelector((state) => state.messages.messages);
    const dispatch = useDispatch();
-   const chatRef = useRef();
+   const messagesEndRef = useRef();
    const [message, setMessage] = useState("");
-   const [paginatedData, setPaginatedData] = useState([]);
-   const [chatSize, setChatSize] = useState(25);
+   // const [paginatedData, setPaginatedData] = useState([]);
+   // const [chatSize, setChatSize] = useState(25);
 
    useEffect(() => {
       dispatch(logIn());
    }, [dispatch]);
 
-   useEffect(() => {
-      const getPaginetedData = () => {
-         let slicedmsg = messages.slice(
-            messages.length - chatSize,
-            messages.length
-         );
-         setPaginatedData(slicedmsg);
-      };
+   // useEffect(() => {
+   //    const getPaginetedData = () => {
+   //       let slicedmsg = messages.slice(
+   //          messages.length - chatSize,
+   //          messages.length
+   //       );
+   //       setPaginatedData(slicedmsg);
+   //    };
 
-      getPaginetedData();
-   }, [chatSize, message, messages]);
+   //    getPaginetedData();
+   // }, [chatSize, message, messages]);
 
    useEffect(() => {
       const onUpdateMessage = () => {
@@ -53,23 +53,22 @@ const Homepage = () => {
       setMessage("");
    };
 
-   const loadmoreMessages = () => {
-      if (messages.length < chatSize + 25) {
-         setChatSize(messages.length);
-      } else {
-         setChatSize(chatSize + 25);
-      }
+   // const loadmoreMessages = () => {
+   //    if (messages.length < chatSize + 25) {
+   //       setChatSize(messages.length);
+   //    } else {
+   //       setChatSize(chatSize + 25);
+   //    }
+   // };
+
+   const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      console.log("updated");
    };
 
    useEffect(() => {
-      const scrollToMyRef = () => {
-         const scroll =
-            chatRef.current.scrollHeight - chatRef.current.clientHeight;
-         chatRef.current.scrollTo(0, scroll);
-      };
-
-      scrollToMyRef();
-   }, [message]);
+      scrollToBottom();
+   }, [messages]);
 
    return (
       <Wrapper>
@@ -78,16 +77,16 @@ const Homepage = () => {
             <hr />
          </div>
 
-         <div className="msgWrapper" ref={chatRef}>
-            <div className="loadmore">
-               {messages.length !== chatSize ? (
+         <div className="msgWrapper">
+            {/* <div className="loadmore">
+               {messages.length > chatSize ? (
                   <button onClick={loadmoreMessages}>load more messages</button>
                ) : null}
-            </div>
+            </div> */}
 
             {messages ? (
                <>
-                  {paginatedData.map((msg, index) => (
+                  {messages.map((msg, index) => (
                      <div
                         key={index}
                         className={
@@ -106,7 +105,7 @@ const Homepage = () => {
                </>
             ) : null}
          </div>
-
+         <div ref={messagesEndRef} />
          <form onSubmit={sendMessageHandler}>
             <textarea
                id="message"
